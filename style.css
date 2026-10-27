@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
 :root {
   --color-bg: #101827;
   --color-panel: #19263a;
@@ -33,17 +35,21 @@ a {
 }
 
 img {
+  display: block;
   max-width: 100%;
 }
 
 /* 상단 메뉴 */
 .top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 14px 20px;
   background: #131e30;
   border-bottom: 1px solid var(--color-border);
 }
@@ -65,6 +71,7 @@ img {
 .top nav a {
   color: var(--color-muted);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .top nav a:hover {
@@ -79,7 +86,8 @@ img {
   padding: 40px 20px;
   background:
     linear-gradient(rgba(9, 15, 27, 0.75), rgba(9, 15, 27, 0.75)),
-    url("https://image.tmdb.org/t/p/w1280/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg") center / cover;
+    url("https://image.tmdb.org/t/p/w1280/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg")
+    center / cover;
 }
 
 .hero-content {
@@ -104,7 +112,9 @@ img {
   font-size: 0.85rem;
 }
 
-.container {
+/* 본문 */
+.container,
+.detail-main {
   width: calc(100% - 32px);
   max-width: var(--content-width);
   margin: 0 auto;
@@ -144,6 +154,7 @@ img {
   font-size: 0.9rem;
 }
 
+/* 영화 카드 */
 .board {
   display: grid;
   grid-template-columns: 1fr;
@@ -152,13 +163,16 @@ img {
 
 .card {
   min-width: 0;
+  height: 100%;
   overflow: hidden;
   background: var(--color-panel);
   border: 1px solid var(--color-border);
   border-radius: 10px;
+  transition: transform 0.2s, border-color 0.2s;
 }
 
 .card:hover {
+  transform: translateY(-3px);
   border-color: var(--color-accent);
 }
 
@@ -170,6 +184,7 @@ img {
 
 .poster-wrap {
   position: relative;
+  overflow: hidden;
   background: #22334c;
 }
 
@@ -204,6 +219,7 @@ img {
   margin: 0 0 6px;
   font-size: 1.1rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .year {
@@ -218,6 +234,7 @@ img {
   font-family: sans-serif;
   font-size: 0.9rem;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .change {
@@ -227,6 +244,7 @@ img {
   font-size: 0.85rem;
 }
 
+/* 하단 */
 .footer {
   margin-top: 40px;
   padding: 24px 16px;
@@ -244,10 +262,16 @@ img {
   color: var(--color-accent);
 }
 
+/* 영화 상세 페이지 */
+.detail-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(16, 24, 39, 0.94), rgba(16, 24, 39, 0.98)),
+    url("https://image.tmdb.org/t/p/w1280/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg")
+    center / cover fixed;
+}
+
 .detail-main {
-  width: calc(100% - 32px);
-  max-width: var(--content-width);
-  margin: 0 auto;
   padding: 28px 0 50px;
 }
 
@@ -276,9 +300,14 @@ img {
   border-radius: 8px;
 }
 
+.detail-content {
+  min-width: 0;
+}
+
 .detail-content h1 {
   margin: 0 0 16px;
   font-size: clamp(1.7rem, 4vw, 2.5rem);
+  overflow-wrap: anywhere;
 }
 
 .detail-list {
@@ -295,14 +324,66 @@ img {
 }
 
 .detail-list dd {
+  min-width: 0;
   margin: 0;
   overflow-wrap: anywhere;
 }
 
+/* 태블릿 */
+@media (min-width: 600px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-.detail-page {
-  background:
-    linear-gradient(rgba(16, 24, 39, 0.94), rgba(16, 24, 39, 0.98)),
-    url("https://image.tmdb.org/t/p/w1280/8bcoRX3hQRHufLPSDREdvr3YMXx.jpg") center / cover fixed;
+  .detail-layout {
+    grid-template-columns: minmax(200px, 320px) minmax(0, 1fr);
+    align-items: start;
+    padding: 24px;
+  }
+
+  .detail-poster {
+    margin: 0;
+  }
 }
 
+/* PC */
+@media (min-width: 1024px) {
+  .board {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 340px;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 400px) {
+  .top {
+    padding: 12px 16px;
+  }
+
+  .top ul {
+    gap: 10px;
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    min-height: 240px;
+    padding: 30px 16px;
+  }
+
+  .container,
+  .detail-main {
+    width: calc(100% - 24px);
+  }
+
+  .section-heading h2 {
+    font-size: 1.5rem;
+  }
+
+  .detail-list {
+    grid-template-columns: 85px minmax(0, 1fr);
+    gap: 8px;
+  }
+}
